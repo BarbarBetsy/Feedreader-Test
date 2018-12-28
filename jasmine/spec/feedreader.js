@@ -1,46 +1,24 @@
-/* feedreader.js
- *
- * This is the spec file that Jasmine will read and contains
- * all of the tests that will be run against your application.
- */
+// feedreader.js
 
-/* We're placing all of our tests within the $() function,
- * since some of these tests may require DOM elements. We want
- * to ensure they don't run until the DOM is ready.
- */
 $(function () {
-    /* This is our first test suite - a test suite just contains
-     * a related set of tests. This suite is all about the RSS
-     * feeds definitions, the allFeeds variable in our application.
-     */
+
+    // check the feed
     describe('RSS Feeds', function () {
-        /* This is our first test - it tests to make sure that the
-         * allFeeds variable has been defined and that it is not
-         * empty. Experiment with this before you get started on
-         * the rest of this project. What happens when you change
-         * allFeeds in app.js to be an empty array and refresh the
-         * page?
-         */
+
+        // check if allFeeds are defined and not empty
         it('are defined', function () {
             expect(allFeeds).toBeDefined();
             expect(allFeeds.length).not.toBe(0);
         });
 
-        /* TODO: Write a test that loops through each feed
-         * in the allFeeds object and ensures it has a URL defined
-         * and that the URL is not empty.
-         */
-
+        // check if all feeds have an URL
         it('have URL', function () {
             for (i = 0; i < allFeeds.length; i += 1) {
                 expect(allFeeds[i].url).not.toBe(0);
             }
         });
 
-        /* TODO: Write a test that loops through each feed
-         * in the allFeeds object and ensures it has a name defined
-         * and that the name is not empty.
-         */
+        // check if all feeds have a name
         it('have name', function () {
             for (i = 0; i < allFeeds.length; i += 1) {
                 expect(allFeeds[i].name).not.toBe(0);
@@ -48,25 +26,41 @@ $(function () {
         });
     });
 
-    /* TODO: Write a new test suite named "The menu" */
+    // check the menu
+    describe('The Menu', function () {
 
-    describe('The menu', function () {
-
-        /* TODO: Write a test that ensures the menu element is
-         * hidden by default. You'll have to analyze the HTML and
-         * the CSS to determine how we're performing the
-         * hiding/showing of the menu element.
-         */
-        it('is hidden by default', function () {
-            let menu = document.getElementsByClassName('slide-menu');
-            let menuHidden = document.getElementsByClassName('menu-hidden');
-            expect(menu).not.toEqual(menuHidden);
+        // define the hidden/visible positios for the menu
+        let hidden = Object({
+            top: 56,
+            left: -192
         });
-        /* TODO: Write a test that ensures the menu changes
-         * visibility when the menu icon is clicked. This test
-         * should have two expectations: does the menu display when
-         * clicked and does it hide when clicked again.
-         */
+        let visible = Object({
+            top: 56,
+            left: 0
+        });
+
+        // check if position is hidden
+        it('is hidden by default', function () {
+            expect($('.slide-menu').position()).toEqual(hidden);
+            // expect($('.slide-menu').css('transform')).toBe(hidden);
+        });
+
+        // only works bc transformation animation is turned of!!!
+        //TODO: find out how to slow the testing down so that the menu is in final position when tested
+        
+        // check if menu opens/closes on click
+        it('toggles visible/hidden when hamburger is clicked', function () {
+
+            // push the button
+            $('.icon-list').trigger('click');
+            //check if position is visible
+            expect($('.slide-menu').position()).toEqual(visible);
+
+            // un-push the button
+            $('.icon-list').trigger('click');
+            //check if position is hidden
+            expect($('.slide-menu').position()).toEqual(hidden);
+        });
 
     });
 
