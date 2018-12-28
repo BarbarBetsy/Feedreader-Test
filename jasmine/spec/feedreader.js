@@ -14,14 +14,14 @@ $(function () {
         // check if all feeds have an URL
         it('have URL', function () {
             for (i = 0; i < allFeeds.length; i += 1) {
-                expect(allFeeds[i].url).not.toBe(0);
+                expect(allFeeds[i].url).not.toBe('');
             }
         });
 
         // check if all feeds have a name
         it('have name', function () {
             for (i = 0; i < allFeeds.length; i += 1) {
-                expect(allFeeds[i].name).not.toBe(0);
+                expect(allFeeds[i].name).not.toBe('');
             }
         });
     });
@@ -29,54 +29,47 @@ $(function () {
     // check the menu
     describe('The Menu', function () {
 
-        // define the hidden/visible positios for the menu
-        let hidden = Object({
-            top: 56,
-            left: -192
-        });
-        let visible = Object({
-            top: 56,
-            left: 0
-        });
-
-        // check if position is hidden
+        // check if menu is hidden
         it('is hidden by default', function () {
-            expect($('.slide-menu').position()).toEqual(hidden);
-            // expect($('.slide-menu').css('transform')).toBe(hidden);
+            expect($('body').hasClass('menu-hidden')).toBe(true);
         });
+    });
 
-        // only works bc transformation animation is turned of!!!
-        //TODO: find out how to slow the testing down so that the menu is in final position when tested
-        
-        // check if menu opens/closes on click
-        it('toggles visible/hidden when hamburger is clicked', function () {
+    // check if menu opens/closes on click
+    describe('Click on hamburger icon', function () {
 
-            // push the button
+        //check if position is visible after first click
+        it('shows menu', function () {
             $('.icon-list').trigger('click');
-            //check if position is visible
-            expect($('.slide-menu').position()).toEqual(visible);
-
-            // un-push the button
+            expect($('body').hasClass('menu-hidden')).not.toBe(true);
+            //check if position is hidden after second click
             $('.icon-list').trigger('click');
-            //check if position is hidden
-            expect($('.slide-menu').position()).toEqual(hidden);
+            expect($('body').hasClass('menu-hidden')).toBe(true);
         });
-
     });
 
     /* TODO: Write a new test suite named "Initial Entries" */
 
-    /* TODO: Write a test that ensures when the loadFeed
-     * function is called and completes its work, there is at least
-     * a single .entry element within the .feed container.
-     * Remember, loadFeed() is asynchronous so this test will require
-     * the use of Jasmine's beforeEach and asynchronous done() function.
-     */
+    describe('Initial Entries', function () {
+
+        beforeEach(function (done) {
+            loadFeed(0, done);
+        })
+
+        //check if there is at least one entry
+        it('exist', function (done) {
+            console.log($('.feed').children().length);
+            expect($('.feed').children().length).not.toBe(0);
+            done();
+        });
+    });
 
     /* TODO: Write a new test suite named "New Feed Selection" */
+
+
 
     /* TODO: Write a test that ensures when a new feed is loaded
      * by the loadFeed function that the content actually changes.
      * Remember, loadFeed() is asynchronous.
      */
-}());
+});
