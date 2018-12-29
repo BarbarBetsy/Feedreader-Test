@@ -35,7 +35,7 @@ $(function () {
         });
     });
 
-    // check if menu opens/closes on click
+    // // check if menu opens/closes on click
     describe('Click on hamburger icon', function () {
 
         //check if position is visible after first click
@@ -48,8 +48,7 @@ $(function () {
         });
     });
 
-    /* TODO: Write a new test suite named "Initial Entries" */
-
+// check initial entries
     describe('Initial Entries', function () {
 
         beforeEach(function (done) {
@@ -58,18 +57,34 @@ $(function () {
 
         //check if there is at least one entry
         it('exist', function (done) {
-            console.log($('.feed').children().length);
             expect($('.feed').children().length).not.toBe(0);
             done();
         });
     });
 
-    /* TODO: Write a new test suite named "New Feed Selection" */
+    // check the new feed selection
+    describe('New Feed Selection', function () {
+        // create array to collect the headlines of the first article
+        let content = [];
 
+        // push the headline of the first article to the array after the feed is loaded
+        function getContent() {
+            let feed = ($('.entry')[0].textContent);
+            content.push(feed);
+        }
 
+        // load two different feeds
+        beforeEach(function (done) {
+            loadFeed(0, getContent);
+            done();
+            loadFeed(1, getContent);
+            done();
+            console.log(content);
+        })
 
-    /* TODO: Write a test that ensures when a new feed is loaded
-     * by the loadFeed function that the content actually changes.
-     * Remember, loadFeed() is asynchronous.
-     */
+        //check if the headlines of the first article has changed
+        it('is different from old Feed Selection', function () {
+            expect('content[0]').not.toEqual('content[1]');
+        });
+    });
 });
