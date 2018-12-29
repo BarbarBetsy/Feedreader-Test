@@ -48,7 +48,7 @@ $(function () {
         });
     });
 
-// check initial entries
+    // check initial entries
     describe('Initial Entries', function () {
 
         beforeEach(function (done) {
@@ -57,34 +57,32 @@ $(function () {
 
         //check if there is at least one entry
         it('exist', function (done) {
-            expect($('.feed').children().length).not.toBe(0);
+            expect($('.feed').children().length).toBeGreaterThan(0);
             done();
         });
     });
 
     // check the new feed selection
     describe('New Feed Selection', function () {
-        // create array to collect the headlines of the first article
-        let content = [];
+        // create feed to store header of first article of first feed
+        let feed;
 
-        // push the headline of the first article to the array after the feed is loaded
-        function getContent() {
-            let feed = ($('.entry')[0].textContent);
-            content.push(feed);
-        }
-
-        // load two different feeds
+        // load feed 1 and check header of first article
         beforeEach(function (done) {
-            loadFeed(0, getContent);
-            done();
-            loadFeed(1, getContent);
-            done();
-            console.log(content);
-        })
+            loadFeed(0, function () {
+                feed = ($('.entry')[0].textContent);
+                done();
+            });
+        });
 
         //check if the headlines of the first article has changed
-        it('is different from old Feed Selection', function () {
-            expect('content[0]').not.toEqual('content[1]');
+        it('is different from old Feed Selection', function (done) {
+            // load feed 2
+            loadFeed(1, function () {
+                //check if headline of first article is different from before
+                expect(($('.entry')[0].textContent)).not.toEqual(feed);
+                done();
+            });
         });
     });
 });
