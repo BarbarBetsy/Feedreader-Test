@@ -14,6 +14,7 @@ $(function () {
         // check if all feeds have an URL
         it('have URL', function () {
             for (i = 0; i < allFeeds.length; i += 1) {
+                expect(allFeeds[i].url).toBeDefined();
                 expect(allFeeds[i].url).not.toBe('');
             }
         });
@@ -21,6 +22,7 @@ $(function () {
         // check if all feeds have a name
         it('have name', function () {
             for (i = 0; i < allFeeds.length; i += 1) {
+                expect(allFeeds[i].name).toBeDefined();
                 expect(allFeeds[i].name).not.toBe('');
             }
         });
@@ -57,7 +59,7 @@ $(function () {
 
         //check if there is at least one entry
         it('exist', function (done) {
-            expect($('.feed').children().length).toBeGreaterThan(0);
+            expect($('.feed .entry').length).toBeGreaterThan(0);
             done();
         });
     });
