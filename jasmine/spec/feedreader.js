@@ -66,25 +66,23 @@ $(function () {
 
     // check the new feed selection
     describe('New Feed Selection', function () {
-        // create feed to store header of first article of first feed
-        let feed;
+        let feedAfterFirstLoad;
+        let feedAfterSecondLoad;
 
-        // load feed 1 and check header of first article
+        // store the header of the first item in two different feeds
         beforeEach(function (done) {
             loadFeed(0, function () {
-                feed = ($('.entry')[0].textContent);
-                done();
-            });
-        });
+                feedAfterFirstLoad = ($('.entry')[0].innerHTML);
+                loadFeed(1, function () {
+                    feedAfterSecondLoad = ($('.entry')[0].innerHTML);
+                    done();
+                })
+            })
+        })
 
-        //check if the headlines of the first article has changed
-        it('is different from old Feed Selection', function (done) {
-            // load feed 2
-            loadFeed(1, function () {
-                //check if headline of first article is different from before
-                expect(($('.entry')[0].textContent)).not.toEqual(feed);
-                done();
-            });
+        // check if the content is different
+        it('is different from old Feed Selection', function () {
+            expect(feedAfterFirstLoad).not.toEqual(feedAfterSecondLoad);
         });
     });
 });
